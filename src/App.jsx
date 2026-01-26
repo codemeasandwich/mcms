@@ -1,8 +1,43 @@
+import styled from 'styled-components';
 import { TextInput } from '@mantine/core';
 import { useGetMessagesQuery, useSendMessageMutation } from './api/messagesApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUsername } from './features/user/userSlice';
 import { useState } from 'react';
+
+// Styled Components
+const Title = styled.h1`
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
+`;
+
+const SendButton = styled.button`
+  margin-top: 16px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+const MessageCard = styled.div`
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: ${props => props.$isOwn ? '#dcf8c6' : '#f5f5f5'};
+  border-radius: 8px;
+  text-align: ${props => props.$isOwn ? 'right' : 'left'};
+`;
 
 function App() {
   // Redux state for username
@@ -37,7 +72,7 @@ function App() {
       fontFamily: 'Arial, sans-serif',
       padding: '20px'
     }}>
-      <h1>Chat Client Demo</h1>
+      <Title>Chat Client Demo</Title>
 
       {/* Username Input */}
       <TextInput
@@ -62,18 +97,9 @@ function App() {
       </div>
 
       {/* Send Button */}
-      <button
-        onClick={handleSend}
-        disabled={!username || !messageText}
-        style={{
-          marginTop: '16px',
-          padding: '10px 24px',
-          fontSize: '16px',
-          cursor: 'pointer'
-        }}
-      >
+      <SendButton onClick={handleSend} disabled={!username || !messageText}>
         Send Message
-      </button>
+      </SendButton>
 
       {/* Messages List */}
       <div style={{ marginTop: '32px', width: '100%', maxWidth: '500px' }}>
@@ -84,21 +110,13 @@ function App() {
         {error && <p style={{ color: 'red' }}>Error loading messages</p>}
 
         {messages && messages.map((msg, index) => (
-          <div
-            key={index}
-            style={{
-              padding: '12px',
-              marginBottom: '8px',
-              backgroundColor: '#f5f5f5',
-              borderRadius: '8px'
-            }}
-          >
+          <MessageCard key={index} $isOwn={msg.userName === username}>
             <strong>{msg.userName}</strong>
             <span style={{ color: '#666', marginLeft: '8px', fontSize: '12px' }}>
               {new Date(msg.createdAt).toLocaleString()}
             </span>
             <p style={{ margin: '8px 0 0 0' }}>{msg.text}</p>
-          </div>
+          </MessageCard>
         ))}
 
         {messages && messages.length === 0 && (

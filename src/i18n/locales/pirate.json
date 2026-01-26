@@ -1,0 +1,19 @@
+{
+  "title": "Pirate Ship Communications",
+  "username": {
+    "label": "Yer Name",
+    "placeholder": "What be yer name, matey?",
+    "helper": "How ye be known on the seven seas"
+  },
+  "message": {
+    "label": "Message in a Bottle",
+    "placeholder": "Speak yer mind, scallywag..."
+  },
+  "send": "Fire Away!",
+  "messages": {
+    "title": "Ship's Log",
+    "loading": "Fetchin' messages from Davy Jones...",
+    "error": "Blimey! The messages be lost at sea!",
+    "empty": "Arr! No messages yet. Be the first to hoist the colors!"
+  }
+}
