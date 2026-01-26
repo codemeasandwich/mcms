@@ -1,9 +1,15 @@
 import { TextInput } from '@mantine/core';
 import { useGetMessagesQuery, useSendMessageMutation } from './api/messagesApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUsername } from './features/user/userSlice';
 import { useState } from 'react';
 
 function App() {
-  const [username, setUsername] = useState('');
+  // Redux state for username
+  const username = useSelector((state) => state.user.username);
+  const dispatch = useDispatch();
+
+  // Local state for message input (temporary)
   const [messageText, setMessageText] = useState('');
 
   // Fetch messages with polling every 1 second
@@ -40,7 +46,7 @@ function App() {
         placeholder="Enter your username"
         helperText="Your display name"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => dispatch(setUsername(e.target.value))}
       />
 
       {/* Message Input */}
