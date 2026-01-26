@@ -1,0 +1,19 @@
+{
+  "title": "Chat Client Demo",
+  "username": {
+    "label": "Username",
+    "placeholder": "Enter your username",
+    "helper": "Your display name"
+  },
+  "message": {
+    "label": "Message",
+    "placeholder": "Type a message..."
+  },
+  "send": "Send Message",
+  "messages": {
+    "title": "Messages",
+    "loading": "Loading messages...",
+    "error": "Error loading messages",
+    "empty": "No messages yet. Send the first one!"
+  }
+}

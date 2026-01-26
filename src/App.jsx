@@ -4,6 +4,7 @@ import { useGetMessagesQuery, useSendMessageMutation } from './api/messagesApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUsername } from './features/user/userSlice';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Styled Components
 const Title = styled.h1`
@@ -39,7 +40,20 @@ const MessageCard = styled.div`
   text-align: ${props => props.$isOwn ? 'right' : 'left'};
 `;
 
+const LanguageButton = styled.button`
+  padding: 8px 16px;
+  margin: 0 4px;
+  border: 2px solid ${props => props.$active ? '#007bff' : '#ccc'};
+  background: ${props => props.$active ? '#007bff' : 'white'};
+  color: ${props => props.$active ? 'white' : '#333'};
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: ${props => props.$active ? 'bold' : 'normal'};
+`;
+
 function App() {
+  const { t, i18n } = useTranslation();
+
   // Redux state for username
   const username = useSelector((state) => state.user.username);
   const dispatch = useDispatch();
@@ -72,14 +86,29 @@ function App() {
       fontFamily: 'Arial, sans-serif',
       padding: '20px'
     }}>
-      <Title>Chat Client Demo</Title>
+      <Title>{t('title')}</Title>
+
+      <div style={{ marginBottom: '16px' }}>
+        <LanguageButton
+          $active={i18n.language === 'en'}
+          onClick={() => i18n.changeLanguage('en')}
+        >
+          English
+        </LanguageButton>
+        <LanguageButton
+          $active={i18n.language === 'pirate'}
+          onClick={() => i18n.changeLanguage('pirate')}
+        >
+          Pirate
+        </LanguageButton>
+      </div>
 
       {/* Username Input */}
       <TextInput
         name="username"
-        label="Username"
-        placeholder="Enter your username"
-        helperText="Your display name"
+        label={t('username.label')}
+        placeholder={t('username.placeholder')}
+        helperText={t('username.helper')}
         value={username}
         onChange={(e) => dispatch(setUsername(e.target.value))}
       />
@@ -88,8 +117,8 @@ function App() {
       <div style={{ marginTop: '16px', width: '300px' }}>
         <TextInput
           name="message"
-          label="Message"
-          placeholder="Type a message..."
+          label={t('message.label')}
+          placeholder={t('message.placeholder')}
           value={messageText}
           onChange={(e) => setMessageText(e.target.value)}
           disabled={!username}
@@ -98,16 +127,16 @@ function App() {
 
       {/* Send Button */}
       <SendButton onClick={handleSend} disabled={!username || !messageText}>
-        Send Message
+        {t('send')}
       </SendButton>
 
       {/* Messages List */}
       <div style={{ marginTop: '32px', width: '100%', maxWidth: '500px' }}>
-        <h2>Messages</h2>
+        <h2>{t('messages.title')}</h2>
 
-        {isLoading && <p>Loading messages...</p>}
+        {isLoading && <p>{t('messages.loading')}</p>}
 
-        {error && <p style={{ color: 'red' }}>Error loading messages</p>}
+        {error && <p style={{ color: 'red' }}>{t('messages.error')}</p>}
 
         {messages && messages.map((msg, index) => (
           <MessageCard key={index} $isOwn={msg.userName === username}>
@@ -120,7 +149,7 @@ function App() {
         ))}
 
         {messages && messages.length === 0 && (
-          <p style={{ color: '#666' }}>No messages yet. Send the first one!</p>
+          <p style={{ color: '#666' }}>{t('messages.empty')}</p>
         )}
       </div>
     </div>
