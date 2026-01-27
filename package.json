@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "npx playwright install && playwright test"
   },
   "keywords": [
     "react",
@@ -31,6 +32,7 @@
     "@babel/core": "^7.23.0",
     "@babel/preset-env": "^7.28.6",
     "@babel/preset-react": "^7.23.0",
+    "@playwright/test": "^1.58.0",
     "babel-loader": "^9.1.0",
     "css-loader": "^6.8.0",
     "html-webpack-plugin": "^5.5.0",
